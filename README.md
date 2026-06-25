@@ -12,30 +12,30 @@ structure of a stop-signal paradigm I worked with during my MSc thesis (Drift Di
 Modelling of Reactive Inhibitory Control).
 
 
-Summary of what the project does:
+1. Summary of what the project does:
 
 
-Task and data generation - A two-choice perceptual decision task with an embedded
+a) Task and data generation - A two-choice perceptual decision task with an embedded
 stop signal. Go and stop processes are independent bounded accumulators racing on one
 timeline; the response is emitted only if the go process crosses threshold before the stop
 process finishes. The accumulators generate ground-truth labels; the network sees only raw,
 un-integrated momentary evidence and must learn to integrate it itself.
 
-Training - A vanilla tanh RNN (128 units) is trained with timestep-wise cross-entropy
+b) Training - A vanilla tanh RNN (128 units) is trained with timestep-wise cross-entropy
 to reproduce the correct response (or correct withholding) at every timestep.
 
-Mechanistic analysis - The trained network is reverse engineered with:
+c) Mechanistic analysis - The trained network is reverse engineered with:
 
 PCA of hidden-state trajectories (low-dimensional structure of the dynamics)
 Linear probing over time (what information is decodable, and when)
 Fixed-point analysis with Jacobian eigenvalue stability (the dynamical skeleton)
 Activation patching (causal test of the choice direction)
 
-Behavioural validation - The network's reaction time and accuracy patterns are compared
+d) Behavioural validation - The network's reaction time and accuracy patterns are compared
 to DDM signatures, and a cancelled-vs-non-cancelled analysis tests for the Hanes et al.
 (1998) countermanding signature.
 
-Normative aging study - Per "subject" RNNs are trained across cohort parameter
+e) Normative aging study - Per "subject" RNNs are trained across cohort parameter
 distributions grounded in the published cognitive-aging DDM literature (older adults show higher
 boundary separation, which corresponds with an increasingly cautious response strategy, and 
 longer non-decision time, which corresponds with increased stimulus encoding and motor 
@@ -44,7 +44,7 @@ The study asks how those parameter differences manifest in the
 trained networks' internal dynamics.
 
 
-Key findings:
+2. Key findings:
 
 
 The trained RNN discovers a line-attractor integration mechanism; hidden-state
@@ -66,7 +66,7 @@ boundary (r ≈ 0.70, 95% CI [0.47, 0.84])
 c) Reaction time scales strongly with boundary (r ≈ 0.94, 95% CI [0.91, 0.97])
 
 
-Interpretation: 
+3. Interpretation: 
 
 
 The trained network encodes a higher decision boundary consistently
@@ -75,7 +75,7 @@ slowly and responds later. All three effects are significant and survive Bonferr
 correction for the number of comparisons made.
 
 
-Limitations:
+4. Limitations:
 
 
 The aging-study parameter contrast is normative, not empirical, as cohort means are drawn
@@ -96,7 +96,7 @@ not any biological circuits directly, as there is no fMRI, EEG, or any other mod
 brain imaging data used in this project.
 
 
-How to run:
+5. How to run:
 
 
 Open the notebook in Google Colab (CPU runtime is sufficient for the core pipeline; the
@@ -105,13 +105,13 @@ required — all trials are generated synthetically. Dependencies (PyTorch, NumP
 SciPy, Matplotlib) are preinstalled on Colab.
 
 
-References:
+6. References:
 
 
-Logan & Cowan (1984), independent race model of the stop-signal task.
-Sussillo & Barak (2013); Mante, Sussillo, Shenoy & Newsome (2013) — fixed-point analysis of
+a) Logan & Cowan (1984), independent race model of the stop-signal task.
+b) Sussillo & Barak (2013); Mante, Sussillo, Shenoy & Newsome (2013) — fixed-point analysis of
 trained RNNs and line-attractor dynamics in decision-making.
-Hanes, Patterson & Schall (1998); Boucher, Palmeri, Logan & Schall (2007) — countermanding
+c) Hanes, Patterson & Schall (1998); Boucher, Palmeri, Logan & Schall (2007) — countermanding
 neurophysiology and race models.
-Theisen, Lerche, von Krause & Voss (2021), "Age differences in diffusion model parameters:
+d) Theisen, Lerche, von Krause & Voss (2021), "Age differences in diffusion model parameters:
 a meta-analysis"; Ratcliff & Thapar, diffusion-model studies of aging.
