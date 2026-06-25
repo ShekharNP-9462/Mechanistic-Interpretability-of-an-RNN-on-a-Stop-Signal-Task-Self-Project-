@@ -75,34 +75,53 @@ slowly and responds later. All three effects are significant and survive Bonferr
 correction for the number of comparisons made.
 
 
-4. Limitations:
+4. Relationship to prior work and modelling assumptions
 
 
-The aging-study parameter contrast is normative, not empirical, as cohort means are drawn
+The methodology here follows the "trained RNN as a model system" methodology in computational 
+neuroscience. The interpretability tools used (fixed point analysis, Jacobian-eigenvalue stability, 
+and line attractor characterization) are those introduced by Sussillo & Barak (2013), and the 
+specific setup of training an RNN on a noisy evidence integration task and recovering line attractor 
+dynamics follows Mante, Sussillo, Shenoy & Newsome (2013). Two assumptions are worth stating explicitly, 
+because they bound what this project can claim: 
+
+a) The momentary evidence fed to the RNN is the DDM's assumed input, not observed data. A stop-signal 
+experiment yields only the stimulus, the response (or its absence), and the reaction time, and 
+never the moment-to-moment internal evidence stream, which the RNN is trained on here. However, the 
+assumptions of the drift diffusion model involves exactly such a stream (a drift term plus Gaussian noise, 
+which is the same momentary evidence stream used here) which is integrated to a boundary; a fitted drift 
+rate is, by definition, the mean of that assumed momentary evidence distribution. So, supplying momentary 
+evidence to the RNN does not reconstruct anything measured - it provides the input the DDM already assumes, 
+and the RNN is trained to reproduce the DDM's input-output mapping. 
+b) The validation target is a model, not recorded neural data. Unlike Mante et al. (2013), which compared 
+the trained network's dynamics against recordings from the prefrontal cortex, this project has no neural 
+recordings to validate against; its "ground truth" is the DDM itself. The defensible claim is therefore 
+that the RNN discovers a DDM-consistent mechanism, not that it reproduces measured neural dynamics (which is
+also mentioned in the 'Limitations' section below).  Additionally, the network is trained with dense, 
+timestep-wise supervision on DDM-generated labels (including response timing), which is a stronger form 
+of supervision than the sparse, outcome-only training used in some prior work - so "integration emerges 
+spontaneously from the task" is a correspondingly weaker claim here than under reward-only training.
+
+
+5. Limitations:
+
+
+a) The aging-study parameter contrast is normative, not empirical, as cohort means are drawn
 from the published literature, not from any specific participant dataset. The finding is the
 consequence of those parameter differences for RNN dynamics, not a claim made about any 
 specific human data.
-High-boundary subjects are harder to train and are excluded slightly more often by the 
+b) High-boundary subjects are harder to train and are excluded slightly more often by the 
 accuracy gate (here, 2/20 older-cohort subjects vs 0/20 younger). Because the excluded 
 subjects are systematically the highest-boundary ones, the surviving older group is somewhat 
 biased toward lower boundaries - which makes the reported cohort effects conservative 
 underestimates of the true boundary effect. Training is also somewhat seed-sensitive at 
 high boundaries (some initializations reach criterion, some do not); training multiple seeds 
 per subject and keeping the best would tighten this further.
-Analyses are exploratory; p-values are uncorrected by default, but the three main effects
+c) Analyses are exploratory; p-values are uncorrected by default, but the three main effects
 (p ≈ 0.002, 0.001, < 0.001) survive Bonferroni correction for the comparisons made.
-The obtained results characterize one trained architecture on one synthetic task, as a model system -
+d) The obtained results characterize one trained architecture on one synthetic task, as a model system -
 not any biological circuits directly, as there is no fMRI, EEG, or any other modality of 
 brain imaging data used in this project.
-
-
-5. How to run:
-
-
-Open the notebook in Google Colab (CPU runtime is sufficient for the core pipeline; the
-aging study benefits from a GPU runtime). Run cells top to bottom. No dataset download is
-required — all trials are generated synthetically. Dependencies (PyTorch, NumPy, scikit-learn,
-SciPy, Matplotlib) are preinstalled on Colab.
 
 
 6. References:
